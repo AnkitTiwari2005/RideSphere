@@ -1,0 +1,64 @@
+<!-- templates/add_vehicle.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Vehicle | RideSphere</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <div class="logo">
+            <h1><a href="{{ url_for('home') }}">RideSphere</a></h1>
+        </div>
+        <nav class="nav-links">
+            <ul>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('add_vehicle') }}" class="active">Add Vehicle</a></li>
+                <li><a href="{{ url_for('vehicles') }}">View Vehicles</a></li>
+                {% if "user_id" in session %}
+                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                {% else %}
+                    <li><a href="{{ url_for('login') }}">Login</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Add Vehicle Form Section -->
+    <section class="form-container">
+        <div class="form-box large">
+            <h2>Add New Vehicle</h2>
+            <form method="POST" action="{{ url_for('add_vehicle') }}">
+                <div class="form-group">
+                    <label for="name">Vehicle Model:</label>
+                    <input type="text" id="name" name="name" placeholder="e.g., Toyota Corolla" required>
+                </div>
+                <div class="form-group">
+                    <label for="type">Vehicle Type:</label>
+                    <input type="text" id="type" name="type" placeholder="e.g., Sedan" required>
+                </div>
+                <div class="form-group">
+                    <label for="registration">Registration Number:</label>
+                    <input type="text" id="registration" name="registration" placeholder="e.g., ABC-1234" required>
+                </div>
+                <div class="form-group">
+                    <label for="rent">Rent (INR):</label>
+                    <input type="number" id="rent" name="rent" placeholder="e.g., 1500" required>
+                </div>
+                <button type="submit" class="btn">Add Vehicle</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="sticky-footer">
+        <div class="footer-content">
+            <p>&copy; 2024 RideSphere. All Rights Reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

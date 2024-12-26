@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Details | Vehicle Rental System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <div class="logo">
+            <h1><a href="{{ url_for('home') }}">Vehicle Rental</a></h1>
+        </div>
+        <nav class="nav-links">
+            <ul>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('add_vehicle') }}">Add Vehicle</a></li>
+                <li><a href="{{ url_for('vehicles') }}">View Vehicles</a></li>
+                {% if 'user_id' in session %}
+                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                {% else %}
+                    <li><a href="{{ url_for('login') }}">Login</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Vehicle Details Section -->
+    <section class="vehicle-details">
+        <div class="vehicle-card">
+            <h2>{{ vehicle.name }} Details</h2>
+            <p><strong>Type:</strong> {{ vehicle.type }}</p>
+            <p><strong>Registration Number:</strong> {{ vehicle.registration }}</p>
+            <p><strong>Rent:</strong> ₹{{ vehicle.rent }}</p>
+            <p><strong>Availability:</strong> <span class="{{ 'status-available' if vehicle.available else 'status-booked' }}">{{ 'Available' if vehicle.available else 'Currently Booked' }}</span></p>
+            <a href="{{ url_for('book', vehicle_id=vehicle.id) }}" class="btn">Book Now</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="sticky-footer">
+        <div class="footer-content">
+            <p>&copy; 2024 Vehicle Rental System. All Rights Reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

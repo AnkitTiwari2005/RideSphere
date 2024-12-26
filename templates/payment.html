@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment | Vehicle Rental System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .form-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .form-box {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+        .form-box h2 {
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .btn {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #218838;
+        }
+        .form-footer {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .form-footer a {
+            color: #007bff;
+        }
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+        .payment-methods {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .payment-methods button {
+            flex: 1;
+            margin-right: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: white;
+            font-weight: 700;
+        }
+        .payment-methods button:last-child {
+            margin-right: 0;
+        }
+        .payment-methods button.active {
+            border-color: #28a745;
+            background-color: #e9ffe9;
+        }
+        .loading-animation {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            z-index: 1000;
+        }
+        .loading-animation .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-top: 4px solid #28a745;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .payment-success {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            z-index: 1000;
+        }
+        .payment-success .message-box {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <div class="logo">
+            <h1><a href="{{ url_for('home') }}">Vehicle Rental</a></h1>
+        </div>
+        <nav class="nav-links">
+            <ul>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('add_vehicle') }}">Add Vehicle</a></li>
+                <li><a href="{{ url_for('vehicles') }}">View Vehicles</a></li>
+                {% if "user_id" in session %}
+                    <li><a href="{{ url_for('my_bookings') }}">My Bookings</a></li>
+                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                {% else %}
+                    <li><a href="{{ url_for('login') }}">Login</a></li>
+                    <li><a href="{{ url_for('register') }}">Register</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Payment Form Section -->
+    <section class="form-container">
+        <div class="form-box">
+            <h2>Payment Details</h2>
+            <p><strong>Vehicle Name:</strong> {{ vehicle.name }}</p>
+            <p><strong>Amount:</strong> ₹{{ vehicle.rent }}</p>
+            <div class="payment-methods">
+                <button id="cardButton" class="active" type="button" onclick="selectPaymentMethod('card')">Credit/Debit Card</button>
+                <button id="upiButton" type="button" onclick="selectPaymentMethod('upi')">UPI</button>
+            </div>
+            <form id="cardPaymentForm" method="POST" action="{{ url_for('payment', vehicle_id=vehicle.id) }}" onsubmit="return handlePayment(event, 'card')">
+                <div id="cardDetails" class="payment-details">
+                    <div class="form-group">
+                        <label for="cardNumber">Card Number:</label>
+                        <input type="text" id="cardNumber" name="cardNumber" placeholder="Enter your card number" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="expiryDate">Expiry Date:</label>
+                        <input type="text" id="expiryDate" name="expiryDate" placeholder="MM/YY" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cvv">CVV:</label>
+                        <input type="text" id="cvv" name="cvv" placeholder="Enter your CVV" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="nameOnCard">Name on Card:</label>
+                        <input type="text" id="nameOnCard" name="nameOnCard" placeholder="Enter name on card" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Pay Now with Card</button>
+                </div>
+            </form>
+            <form id="upiPaymentForm" method="POST" action="{{ url_for('payment', vehicle_id=vehicle.id) }}" style="display: none;" onsubmit="return handlePayment(event, 'upi')">
+                <div id="upiDetails" class="payment-details">
+                    <div class="form-group">
+                        <label for="upiId">UPI ID:</label>
+                        <input type="text" id="upiId" name="upiId" placeholder="Enter your UPI ID" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Pay Now with UPI</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Loading Animation -->
+    <div class="loading-animation" id="loadingAnimation">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Payment Success Message -->
+    <div class="payment-success" id="paymentSuccess">
+        <div class="message-box">
+            <h2>Payment Successful!</h2>
+        </div>
+    </div>
+
+    <script>
+        function selectPaymentMethod(method) {
+            const cardButton = document.getElementById('cardButton');
+            const upiButton = document.getElementById('upiButton');
+            const cardDetails = document.getElementById('cardDetails');
+            const upiDetails = document.getElementById('upiDetails');
+            const cardPaymentForm = document.getElementById('cardPaymentForm');
+            const upiPaymentForm = document.getElementById('upiPaymentForm');
+
+            if (method === 'card') {
+                cardButton.classList.add('active');
+                upiButton.classList.remove('active');
+                cardDetails.style.display = 'block';
+                upiDetails.style.display = 'none';
+                cardPaymentForm.style.display = 'block';
+                upiPaymentForm.style.display = 'none';
+            } else {
+                cardButton.classList.remove('active');
+                upiButton.classList.add('active');
+                cardDetails.style.display = 'none';
+                upiDetails.style.display = 'block';
+                cardPaymentForm.style.display = 'none';
+                upiPaymentForm.style.display = 'block';
+            }
+        }
+
+        function handlePayment(event, method) {
+            event.preventDefault(); // Prevent the form from submitting normally
+
+            const confirmationMessage = method === 'card' ? "Do you want to proceed with the card payment?" : "Do you want to proceed with the UPI payment?";
+            const confirmation = confirm(confirmationMessage);
+            if (!confirmation) {
+                return false; // Stop if the user cancels the payment
+            }
+
+            // Show loading animation
+            const loadingAnimation = document.getElementById('loadingAnimation');
+            loadingAnimation.style.display = 'flex';
+
+            // Simulate payment processing
+            setTimeout(() => {
+                // Hide loading animation
+                loadingAnimation.style.display = 'none';
+
+                // Show payment success message
+                const paymentSuccess = document.getElementById('paymentSuccess');
+                paymentSuccess.style.display = 'flex';
+
+                // Redirect to the booked vehicles page after a short delay
+                setTimeout(() => {
+                    if (method === 'card') {
+                        document.getElementById('cardPaymentForm').submit();
+                    } else {
+                        document.getElementById('upiPaymentForm').submit();
+                    }
+                }, 2000); // Simulate a 2-second delay
+            }, 2000); // Simulate a 2-second payment processing time
+
+            return false; // Prevent form submission
+        }
+    </script>
+</body>
+</html>

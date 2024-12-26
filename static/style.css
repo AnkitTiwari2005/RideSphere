@@ -1,0 +1,755 @@
+/* General Styles */
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+    scroll-behavior: smooth; /* Smooth scroll effect */
+}
+
+h1, h2 {
+    font-family: 'Montserrat', sans-serif;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+
+@keyframes slideDown {
+    from {
+        top: -50px;
+    }
+    to {
+        top: 0;
+    }
+}
+
+.navbar .logo h1 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.navbar .logo a {
+    color: white;
+    text-decoration: none;
+}
+
+.nav-links ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
+
+.nav-links li {
+    margin: 0 10px;
+}
+
+.nav-links a {
+    color: white;
+    font-weight: bold;
+    padding: 8px 12px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    white-space: nowrap; /* Prevent text wrapping */
+}
+
+.nav-links a:hover, .nav-links a.active {
+    background-color: #1565c0;
+}
+
+/* Media Query for Small Screens */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .nav-links ul {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .nav-links li {
+        margin: 5px 0;
+        width: 100%;
+    }
+
+    .nav-links a {
+        display: block;
+        width: 100%;
+        text-align: left;
+        padding: 10px;
+    }
+}
+
+/* Hero Section */
+.hero {
+    background: url('../images/hero-bg.jpg') no-repeat center center/cover;
+    color: white;
+    text-align: center;
+    padding: 150px 20px;
+    animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.hero-content {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.hero h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    animation: slideInFromLeft 1s ease-in-out;
+}
+
+@keyframes slideInFromLeft {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+.hero p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    animation: slideInFromRight 1s ease-in-out;
+}
+
+@keyframes slideInFromRight {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+.hero .btn {
+    background-color: #ff6b6b;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    transition: background-color 0.3s ease;
+    margin: 10px;
+    animation: fadeInUp 1s ease-in-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.hero .btn:hover {
+    background-color: #e55555;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+/* Search Section */
+.search-section {
+    background-color: #f1f1f1;
+    padding: 20px 0;
+    text-align: center;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.search-section .container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.search-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.search-form input {
+    padding: 10px;
+    width: 70%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.search-form button {
+    padding: 10px 20px;
+    background-color: #1e88e5;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.search-form button:hover {
+    background-color: #1565c0;
+}
+
+/* Features Section */
+.features {
+    padding: 50px 0;
+    text-align: center;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.features h2 {
+    margin-bottom: 30px;
+    font-size: 2.5rem;
+}
+
+.feature-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.feature-card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-width: 300px;
+    flex: 1 1 300px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: fadeInUp 1s ease-in-out;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.feature-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.feature-card p {
+    font-size: 1rem;
+    color: #666;
+}
+
+/* About Us Section */
+.about {
+    padding: 50px 0;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.about h2 {
+    margin-bottom: 30px;
+    font-size: 2.5rem;
+    text-align: center;
+}
+
+.about p {
+    font-size: 1rem;
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+/* Form Styles */
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    background-color: #f9f9f9;
+    padding: 20px;
+    animation: fadeInUp 1s ease-in-out;
+}
+
+.form-box {
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 40px 50px;
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.form-box h2 {
+    font-size: 28px;
+    color: #333333;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.form-group label {
+    font-size: 16px;
+    color: #333333;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    font-size: 16px;
+    color: #333333;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
+    border-color: #1e88e5;
+    outline: none;
+}
+
+/* Vehicle Grid Styles */
+.vehicle-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin: 20px auto;
+}
+
+.vehicle-card {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.vehicle-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.vehicle-card h2 {
+    margin-top: 0;
+}
+
+.vehicle-card.booked {
+    background-color: #f9f9f9;
+    opacity: 0.8;
+}
+
+/* Vehicle Card Actions */
+.card-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.booked-message {
+    font-weight: bold;
+    color: #e53935;
+}
+
+/* Status Styles */
+.status-available {
+    color: #43a047;
+    font-weight: bold;
+}
+
+.status-booked {
+    color: #e53935;
+    font-weight: bold;
+}
+
+/* Button Styles */
+.btn-primary {
+    background-color: #1e88e5;
+    color: white;
+    font-weight: bold;
+    padding: 10px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #1565c0;
+    transform: translateY(-2px);
+}
+
+.btn {
+    background-color: #64b5f6;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #1e88e5;
+    transform: translateY(-2px);
+}
+
+/* Footer Styles */
+footer {
+    background-color: #1e88e5;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    margin-top: 30px;
+}
+
+.footer-content {
+    font-size: 0.9rem;
+}
+
+.sticky-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #1e88e5;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+}
+
+/* Footer link */
+.form-footer {
+    margin-top: 20px;
+    font-size: 16px;
+    color: #666666;
+}
+
+.form-footer a {
+    color: #1e88e5;
+    text-decoration: none;
+}
+
+.form-footer a:hover {
+    text-decoration: underline;
+}
+
+/* Pop-up Styles */
+.popup {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #28a745; /* Green background */
+    color: white;
+    padding: 15px 20px;
+    border-radius: 5px;
+    opacity: 0;
+    transition: opacity 0.3s, transform 0.3s;
+    z-index: 1000;
+}
+
+.popup.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.navbar {
+    background: linear-gradient(90deg, #1e88e5, #42a5f5);
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: fixed; /* Fix the navbar at the top */
+    top: 0; /* Position it at the top */
+    width: 100%; /* Make the navbar full width */
+    z-index: 1000; /* Ensure it stays above other content */
+    animation: slideDown 0.5s ease-in-out;
+}
+
+/* Add padding to the body to accommodate the fixed navbar */
+body {
+    padding-top:65px; /* Adjust this value to match the height of your navbar */
+}
+/* Enhanced Hero Section */
+.hero {
+    background: linear-gradient(90deg, rgba(30, 136, 229, 0.8), rgba(236, 225, 68, 0.8)), url('../images/hero-bg.jpg') no-repeat center center/cover;
+    color: white;
+    text-align: center;
+    padding: 150px 20px;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.hero h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    animation: slideInFromLeft 1s ease-in-out;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    animation: slideInFromRight 1s ease-in-out;
+}
+
+.hero .btn {
+    background-color: #d72424;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    transition: background-color 0.3s ease;
+    margin: 10px;
+    animation: fadeInUp 1s ease-in-out;
+}
+
+.hero .btn:hover {
+    background-color: #e55555;
+}
+
+/* Enhanced Features Section */
+.features {
+    padding: 50px 0;
+    text-align: center;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.features h2 {
+    margin-bottom: 30px;
+    font-size: 2.5rem;
+}
+
+.feature-card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-width: 300px;
+    flex: 1 1 300px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: fadeInUp 1s ease-in-out;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.feature-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #1e88e5;
+}
+
+.feature-card p {
+    font-size: 1rem;
+    color: #666;
+}
+
+/* Enhanced Footer Styles */
+footer {
+    background-color: #1e88e5;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    margin-top: 30px;
+}
+
+.footer-content {
+    font-size: 0.9rem;
+}
+
+.sticky-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #307cbd;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+}
+
+/* Add right padding to the last button on the navigation bar */
+.nav-links li:last-child a {
+    padding-right: 40px; /* Adjust the value as needed */
+}
+/* Pop-up Styles */
+.popup {
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #f44336; /* Red background for error */
+    color: white;
+    padding: 5px 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, transform 0.3s;
+    z-index: 1000;
+    max-width: 400px; /* Set a max-width for the pop-up */
+    text-align: center; /* Center the text */
+}
+
+.popup.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -50%);
+}
+
+.popup p {
+    margin: 0 0 10px;
+    font-size: 1rem; /* Adjust the font size */
+}
+
+.popup button {
+    background-color: white;
+    color: #f44336;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem; /* Adjust the font size */
+}
+
+.popup button:hover {
+    background-color: #fdd;
+}
+
+/* Error message styling */
+.error-message {
+    color: #e74c3c; /* Typical color for error messages (red) */
+    font-size: 0.9rem;
+    margin-top: 5px;
+}
+
+/* Password help text styling */
+.form-text {
+    color: #555; /* Grey color for instructional text */
+    font-size: 0.9rem;
+}
+
+.form-text ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: disc;
+    padding-left: 20px;
+}
+
+.form-text li {
+    margin-top: 5px;
+}
+
+.flashes {
+    list-style-type: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+.flashes li {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.flashes .success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.flashes .error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* Add other categories as needed */
+
+.flashes {
+    list-style-type: none;
+    padding: 0;
+    margin: 20px 0;
+    margin-top: 60px; /* Add margin to ensure messages are not hidden behind the navbar */
+}
+
+.flashes li {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.flashes .success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.flashes .error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* Add other categories as needed */
+/* Logo Styles */
+.logo-image {
+    max-height: 60px;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+/* Adjustments for Navbar */
+.navbar .logo h1 a {
+    color: yellow;
+    font-size: 2.25rem; /* 1.5 times the original size */
+}
+
+/* Highlight Text in Hero Section */
+.hero h1.highlight {
+    color: yellow;
+    font-size: 4.5rem; /* 1.5 times the original size */
+    font-weight: bold;
+}

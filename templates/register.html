@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | RideSphere</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <div class="logo">
+            <h1><a href="{{ url_for('home') }}">RideSphere</a></h1>
+        </div>
+        <nav class="nav-links">
+            <ul>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('add_vehicle') }}">Add Vehicle</a></li>
+                <li><a href="{{ url_for('vehicles') }}">View Vehicles</a></li>
+                {% if "user_id" in session %}
+                    <li><a href="{{ url_for('my_bookings') }}">My Bookings</a></li>
+                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                {% else %}
+                    <li><a href="{{ url_for('login') }}">Login</a></li>
+                    <li><a href="{{ url_for('register') }}" class="active">Register</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Registration Form Section -->
+    <section class="form-container">
+        <div class="form-box">
+            <h2>Create Your Account</h2>
+            <form method="POST" action="{{ url_for('register') }}" onsubmit="return validateForm()">
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" placeholder="Enter your username" required>
+                    {% if error %}
+                        <p class="error-message">{{ error }}</p>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                    <p id="passwordHelp" class="form-text">
+                        Password must be at least <strong>8 characters</strong> long, and include:
+                        <ul>
+                            <li>Uppercase and lowercase letters</li>
+                            <li>A number</li>
+                            <li>At least one symbol (e.g., @, $, !, %, *, ?, &)</li>
+                        </ul>
+                    </p>
+                </div>
+                <button type="submit" class="btn btn-primary">Register</button>
+            </form>
+            <div class="form-footer">
+                <p>Already have an account? <a href="{{ url_for('login') }}">Login here</a></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="sticky-footer">
+        <div class="footer-content">
+            <p>&copy; 2024 RideSphere. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function validateForm() {
+            const password = document.getElementById('password').value;
+            const passwordHelp = document.getElementById('passwordHelp');
+            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+            if (!passwordRegex.test(password)) {
+                passwordHelp.style.color = 'red';
+                return false;
+            } else {
+                passwordHelp.style.color = 'black';
+                return true;
+            }
+        }
+    </script>
+</body>
+</html>

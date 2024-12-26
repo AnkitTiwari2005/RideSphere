@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Home | RideSphere</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+
+    <style>
+
+        /* Additional styles for requested changes */
+        body {
+            padding-top: 120px; /* Add padding to accommodate the fixed navbar */
+        }
+
+         .navbar {
+            background: linear-gradient(90deg, #1e88e5, #42a5f5);
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: fixed; /* Fix the navbar at the top */
+            top: 0; /* Position it at the top */
+            width: 100%; /* Make the navbar full width */
+            z-index: 1000; /* Ensure it stays above other content */
+            animation: slideDown 0.5s ease-in-out;
+        }
+
+
+        .logo {
+
+            display: flex;
+
+            align-items: center; /* Align items vertically */
+
+        }
+
+
+        .logo img {
+
+            width: 100px; /* Increased size for the logo */
+
+            height: 100px; /* Increased size for the logo */
+
+            border-radius: 50%; /* Circular logo */
+
+            margin-right: 10px; /* Space between logo and text */
+
+        }
+
+
+        .logo h1 {
+
+            margin: 0;
+
+            font-size: 1.5em;
+
+        }
+
+
+        .slogan {
+
+            font-size: 0.8em; /* Smaller font size */
+
+            color: rgb(224, 239, 11); /* Yellow color */
+
+            margin: 0; /* Remove default margin */
+
+        }
+
+
+        .hero-content h1 {
+
+            font-size: 2.5em;
+
+            margin-bottom: 10px;
+
+        }
+
+
+        .hero-content h1 span {
+
+            color: #e83434; /* Highlighted "RideSphere" */
+
+            font-size: 1.7em;
+
+        }
+
+
+        .hero-content p {
+
+            font-size: 1.4em;
+
+            color: #ffffff;
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+
+    <header class="navbar">
+
+        <div class="logo">
+
+            <img src="{{ url_for('static', filename='images/Colorful Vintage Retro Car Logo.png') }}" alt="RideSphere Logo">
+
+            <div>
+
+                <h1><a href="{{ url_for('home') }}" style="text-decoration: none; color: white;">RideSphere</a></h1>
+
+                <p class="slogan">Your Journey, Our Wheels!</p> <!-- Tagline under the title -->
+
+            </div>
+
+        </div>
+
+        <nav class="nav-links">
+
+            <ul>
+
+                <li><a href="{{ url_for('home') }}" class="active">Home</a></li>
+
+                <li><a href="{{ url_for('add_vehicle') }}">Add Vehicle</a></li>
+
+                <li><a href="{{ url_for('vehicles') }}">View Vehicles</a></li>
+
+                {% if "user_id" in session %}
+
+                    <li><a href="{{ url_for('my_bookings') }}">My Bookings</a></li>
+
+                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+
+                {% else %}
+
+                    <li><a href="{{ url_for('login') }}">Login</a></li>
+
+                    <li><a href="{{ url_for('register') }}">Register</a></li>
+
+                {% endif %}
+
+            </ul>
+
+        </nav>
+
+    </header>
+
+
+    <!-- Flash Messages -->
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+
+      {% if messages %}
+
+        <ul class="flashes">
+
+          {% for category, message in messages %}
+
+            <li class="{{ category }}">{{ message }}</li>
+
+          {% endfor %}
+
+        </ul>
+
+      {% endif %}
+
+    {% endwith %}
+
+
+    <!-- Hero Section -->
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <h1>Welcome to <span>RideSphere!</span></h1>
+
+            <p>Your gateway to effortless journeys, comfort and unbeatable convenience</p>
+
+            <div class="hero-buttons">
+
+                <a href="{{ url_for('vehicles') }}" class="btn btn-primary">View Available Vehicles</a>
+
+                {% if "user_id" in session %}
+
+                    <a href="{{ url_for('vehicles') }}" class="btn btn-secondary">Get Started</a>
+
+                {% else %}
+
+                    <a href="{{ url_for('register') }}" class="btn btn-secondary">Get Started</a>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+        
+    </section>
+    <!-- Search Section -->
+    <section class="search-section">
+        <div class="container">
+            <form method="GET" action="{{ url_for('search') }}" class="search-form">
+                <input type="text" name="query" placeholder="Search by model, type, or registration..." required>
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features container">
+        <h2>Why Choose Us?</h2>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h3>Wide Range of Vehicles</h3>
+                <p>We offer a diverse selection of vehicles to meet all your needs, from compact cars to luxury SUVs.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Affordable Prices</h3>
+                <p>Our rental rates are competitive, providing you with the best value for your money.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Easy Booking Process</h3>
+                <p>Enjoy a seamless booking experience with our user-friendly platform.</p>
+            </div>
+            <div class="feature-card">
+                <h3>24/7 Customer Support</h3>
+                <p>Our dedicated team is available around the clock to assist you with any queries or issues.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section class="about container">
+        <h2>About Us</h2>
+        <p>At RideSphere, we are committed to providing our customers with top-notch services and a wide range of vehicles to choose from. Our mission is to make vehicle rental accessible and convenient for everyone, ensuring a hassle-free experience from start to finish.</p>
+        <p>Whether you need a car for a business trip, a family vacation, or just to get around town, we have the perfect vehicle for you. Our fleet is regularly maintained to ensure safety and performance, and our customer support team is always ready to help you with any questions or concerns.</p>
+    </section>
+
+    <!-- Footer -->
+    <footer class="sticky-footer">
+        <div class="footer-content">
+            <p>&copy; 2024 RideSphere. All Rights Reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

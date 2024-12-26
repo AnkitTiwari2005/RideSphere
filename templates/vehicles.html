@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicles | RideSphere</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <div class="logo">
+            <h1><a href="{{ url_for('home') }}">RideSphere</a></h1>
+        </div>
+        <nav class="nav-links">
+            <ul>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('add_vehicle') }}">Add Vehicle</a></li>
+                <li><a href="{{ url_for('vehicles') }}" class="active">View Vehicles</a></li>
+                {% if 'user_id' in session %}
+                    <li><a href="{{ url_for('my_bookings') }}">My Bookings</a></li>
+                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                {% else %}
+                    <li><a href="{{ url_for('login') }}">Login</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Vehicles Section -->
+    <section class="container">
+        <h1>Available Vehicles</h1>
+        <div class="vehicle-grid">
+            {% for vehicle in vehicles %}
+            <div class="vehicle-card {% if not vehicle.available %}booked{% endif %}">
+                <h2>{{ vehicle.name }}</h2>
+                <p><strong>Type:</strong> {{ vehicle.type }}</p>
+                <p><strong>Registration Number:</strong> {{ vehicle.registration }}</p>
+                <p><strong>Rent:</strong> ₹{{ vehicle.rent }}<strong>/Week</strong></p>
+                <p><strong>Availability:</strong> <span class="{{ 'status-available' if vehicle.available else 'status-booked' }}">{{ 'Available' if vehicle.available else 'Currently Booked' }}</span></p>
+                <div class="card-actions">
+                    {% if vehicle.available %}
+                    <a href="{{ url_for('book', vehicle_id=vehicle.id) }}" class="btn">Book Now</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="sticky-footer">
+        <div class="footer-content">
+            <p>&copy; 2024 RideSphere. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Pop-up Script -->
+    <script>
+        function showPopup(message) {
+            // Create a new div element for the pop-up
+            const popup = document.createElement('div');
+            popup.className = 'popup';
+            popup.innerText = message;
+
+            // Add the pop-up to the body
+            document.body.appendChild(popup);
+
+            // Show the pop-up with a slight delay
+            setTimeout(() => {
+                popup.classList.add('show');
+            }, 10);
+
+            // Hide and remove the pop-up after 3 seconds
+            setTimeout(() => {
+                popup.classList.remove('show');
+                setTimeout(() => {
+                    document.body.removeChild(popup);
+                }, 300);
+            }, 3000);
+        }
+
+        // Check for flash messages and show pop-ups
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    showPopup("{{ message }}");
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </script>
+</body>
+</html>
